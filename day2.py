@@ -13,7 +13,7 @@ def is_report_safe(report: list[int]):
     return 1
 
 
-with open("data/day2.txt", 'r') as file:
+with open("data/day2.txt", "r") as file:
     data = file.readlines()
 
 data = [[int(item) for item in line.split()] for line in data]

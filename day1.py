@@ -1,6 +1,6 @@
 import numpy as np
 
-with open("data/day1.txt", 'r') as file:
+with open("data/day1.txt", "r") as file:
     data = file.readlines()
 
 values = [line.split("   ") for line in data]
@@ -14,10 +14,10 @@ s = list(set(a1) & set(a2))
 
 a_filtered = [number for number in a1 if number in s]
 
-similarity=0
+similarity = 0
 for number in a_filtered:
     numb_count = a2[a2 == number].size
-    similarity += numb_count*number
+    similarity += numb_count * number
 
 print(diff)
 print(similarity)
