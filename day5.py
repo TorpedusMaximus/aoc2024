@@ -15,16 +15,14 @@ with open("data/day5_2.txt", "r") as file:
     data = []
     for line in file.readlines():
         line = line.removesuffix("\n")
-        data.append([
-            int(number) for number in line.split(",")
-        ])
+        data.append([int(number) for number in line.split(",")])
 
 proper_order = []
 not_proper_order = []
 for order in data:
     bad = False
     for index, number in enumerate(reversed(order)):
-        previous = order[0:len(order) - index - 1]
+        previous = order[0 : len(order) - index - 1]
         if any(previous_number in rules[number] for previous_number in previous):
             not_proper_order.append(order)
             break
@@ -38,16 +36,18 @@ for order in not_proper_order:
     changing_order = order.copy()
     bad = True
     while bad:
-        bad=False
+        bad = False
         for index, number in enumerate(reversed(changing_order)):
-            previous = changing_order[0:len(changing_order) - index - 1]
+            previous = changing_order[0 : len(changing_order) - index - 1]
             if any(previous_number in rules[number] for previous_number in previous):
                 bad = True
 
                 for previous_number in previous:
                     if previous_number in rules[number]:
                         changing_order.remove(previous_number)
-                        changing_order.insert(len(changing_order) - index, previous_number)
+                        changing_order.insert(
+                            len(changing_order) - index, previous_number
+                        )
                         break
                 break
     fixed_order.append(changing_order)

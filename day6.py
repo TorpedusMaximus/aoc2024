@@ -21,7 +21,12 @@ def finish_route(direction, x, y, data):
         else:
             next_move_y -= 1
 
-        if next_move_x < 0 or next_move_y < 0 or next_move_x >= data.shape[0] or next_move_y >= data.shape[1]:
+        if (
+            next_move_x < 0
+            or next_move_y < 0
+            or next_move_x >= data.shape[0]
+            or next_move_y >= data.shape[1]
+        ):
             break
 
         if data[next_move_x][next_move_y] == "#":
@@ -60,7 +65,7 @@ with open("data/day6.txt", "r") as file:
     data = [[character for character in line if character != "\n"] for line in data]
     data = np.array(data).astype(str)
 
-x, y = None,None
+x, y = None, None
 for i in range(data.shape[0]):
     for ii in range(data.shape[1]):
         if data[i][ii] == "^":
@@ -79,8 +84,7 @@ finished, path_sum, visited, directions = finish_route(direction, x, y, data)
 obstacles = []
 with futures.ProcessPoolExecutor() as executor:
     futures_list = [
-        executor.submit(test_new_obstruction, index)
-        for index in range(1, len(visited))
+        executor.submit(test_new_obstruction, index) for index in range(1, len(visited))
     ]
     for future in futures.as_completed(futures_list):
         try:
