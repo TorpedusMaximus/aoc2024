@@ -1,9 +1,6 @@
-
-def apply_rules(stone: int,previous_results):
+def apply_rules(stone: int, previous_results):
     if stone in previous_results.keys():
-        return previous_results[stone],previous_results
-    if stone == 0:
-        return [1],previous_results
+        return previous_results[stone]
     if not len(str(stone)) % 2:
         digits = [int(digit) for digit in str(stone)]
         first_stone = digits[:len(digits) // 2]
@@ -11,24 +8,26 @@ def apply_rules(stone: int,previous_results):
         first_stone = int("".join(map(str, first_stone)))
         second_stone = int("".join(map(str, second_stone)))
         previous_results[stone] = [first_stone, second_stone]
-        return [first_stone, second_stone],previous_results
-    return [2024 * stone],previous_results
+        return [first_stone, second_stone]
+    return [2024 * stone]
+
 
 def main():
     with open("data/day11.txt", "r") as f:
-        data: list[int] = [int(number) for number in f.readline().strip().split()]
+        stones = {int(stone): 1 for stone in f.readline().strip().split()}
 
-    previous_results={}
+    previous_results = {0: [1]}
 
-    stone_line: list[int] = data.copy()
     for i in range(75):
-        new_stone_line = []
-        for stone in stone_line:
-            v,previous_results = apply_rules(stone,previous_results)
-            new_stone_line.extend(v)
-        stone_line = new_stone_line
+        new_stones = {}
+        for stone, number in stones.items():
+            results = apply_rules(stone, previous_results)
+            for result in results:
+                new_stones[result] = new_stones.get(result, 0) + number
+        stones = new_stones
         print(i)
-        print(len(stone_line))
+        print(sum(stones.values()))
+
 
 if __name__ == "__main__":
     main()
